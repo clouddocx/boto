@@ -135,6 +135,7 @@ class ReservedInstance(ReservedInstancesOffering):
         self.instance_count = instance_count
         self.state = state
         self.start = None
+        self.end = None
 
     def __repr__(self):
         return 'ReservedInstance:%s' % self.id
@@ -148,6 +149,8 @@ class ReservedInstance(ReservedInstancesOffering):
             self.state = value
         elif name == 'start':
             self.start = value
+        elif name == 'end':
+            self.end = value
         else:
             super(ReservedInstance, self).endElement(name, value, connection)
 
