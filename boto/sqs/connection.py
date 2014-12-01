@@ -438,7 +438,7 @@ class SQSConnection(AWSQueryConnection):
         if owner_acct_id:
             params['QueueOwnerAWSAccountId']=owner_acct_id
         try:
-            return self.get_object('GetQueueUrl', params, Queue)
+            return self.get_object('GetQueueUrl', params, Queue, log_status={ '400' : 'false' })
         except SQSError:
             return None
 

@@ -1157,7 +1157,7 @@ class AWSQueryConnection(AWSAuthConnection):
             raise self.ResponseError(response.status, response.reason, body)
 
     def get_object(self, action, params, cls, path='/',
-                   parent=None, verb='GET'):
+                   parent=None, verb='GET', log_status=None):
         if not parent:
             parent = self
         response = self.make_request(action, params, path, verb)
@@ -1172,8 +1172,11 @@ class AWSQueryConnection(AWSAuthConnection):
             xml.sax.parseString(body, h)
             return obj
         else:
-            boto.log.error('%s %s' % (response.status, response.reason))
-            boto.log.error('%s' % body)
+            if log_status == None or \
+               (str(response.status) in log_status and log_status[str(response.status)].lower() == "true"):
+                boto.log.error('%s %s' % (response.status, response.reason))
+                boto.log.error('%s' % body)
+
             raise self.ResponseError(response.status, response.reason, body)
 
     def get_status(self, action, params, path='/', parent=None, verb='GET'):
