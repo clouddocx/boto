@@ -39,6 +39,7 @@ class ModelMeta(type):
         try:
             if filter(lambda b: issubclass(b, Model), bases):
                 for base in bases:
+                    base = Model(object)
                     base.__sub_classes__.append(cls)
                 cls._manager = get_manager(cls)
                 # look for all of the Properties and set their names
